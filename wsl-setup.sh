@@ -78,8 +78,10 @@ if ! command_exists oh-my-posh; then
   oh-my-posh font install JetBrainsMono
 
   mkdir -p ~/.poshthemes
-  wget -q -O ~/.poshthemes/iterm2.omp.json https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/iTerm2.omp.json
+  wget -q -O ~/.poshthemes/iterm2.omp.json https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/iterm2.omp.json
+  echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
   echo 'eval "$(oh-my-posh init bash --config ~/.poshthemes/iterm2.omp.json)"' >> ~/.bashrc
+
 else
   echo "✅ Oh My Posh ya instalado: $(oh-my-posh --version)"
 fi
@@ -121,6 +123,33 @@ EOF
 else
   echo "✅ GitKraken ya instalado: $(dpkg -s gitkraken | grep Version | cut -d' ' -f2)"
 fi
+
+# --- Configurar Aliases para Laravel Sail ---
+cat >> ~/.bashrc << 'EOF'
+
+# Laravel Sail Shortcuts
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+alias art='sail php artisan'
+alias vapor='sail bin vapor'
+alias fresh='sail php artisan migrate:fresh'
+
+# Git Hard Reset
+nah() {
+    echo -n "⚠️ Are you sure you want to HARD RESET git? (yes/no): "
+    read response
+    if [ "$response" = "yes" ]; then
+        echo "🧹 Nuclear cleanup initiated..."
+        git reset --hard HEAD
+        git clean -fd
+        if [ -d ".git/rebase-apply" ] || [ -d ".git/rebase-merge" ]; then
+          git rebase --abort
+        fi
+        echo "✅ Repository sterilized"
+    else
+        echo "🚫 Mission aborted"
+    fi
+}
+EOF
 
 # --- Post-instalación ---
 echo -e "\n\u001b[32m✅ ¡Configuración completada!\u001b[0m"
