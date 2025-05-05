@@ -34,10 +34,13 @@ export NVM_DIR="$HOME/.nvm"
 nvm install --lts
 nvm alias default 'lts/*'
 
-# --- Oh My Posh y fuentes ---
+# --- Oh My Posh ---
 echo "🎨 Configurando terminal..."
 curl -s https://ohmyposh.dev/install.sh | bash -s
-oh-my-posh font install JetBrainsMono  # Fuente con soporte de iconos
+
+echo "🔠 Instalando fuentes..."
+eval "$(oh-my-posh init bash)"  # Carga temporal para el comando font install
+oh-my-posh font install JetBrainsMono
 
 # Configurar tema iTerm2
 mkdir -p ~/.poshthemes
