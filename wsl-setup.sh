@@ -16,7 +16,7 @@ DEPENDENCIES=(
   curl git ca-certificates
   libssl-dev pkg-config
   libgtk-3-0 libgbm1 libnss3 libnotify4
-  wget fontconfig gcc
+  wget fontconfig gcc git-flow
 )
 
 TO_INSTALL=()
@@ -91,7 +91,8 @@ if ! dir_exists "$HOME/.sdkman"; then
   echo "☕ Instalando SDKMAN..."
   curl -s "https://get.sdkman.io" | bash
   source "$HOME/.sdkman/bin/sdkman-init.sh"
-  sdk install java 21.0.2-tem
+  sdk install java 21.0.2-open
+  sdk install java 8.0.265-open
 else
   echo "✅ SDKMAN ya instalado"
   source "$HOME/.sdkman/bin/sdkman-init.sh"
